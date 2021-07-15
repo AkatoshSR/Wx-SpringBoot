@@ -21,11 +21,10 @@ public class UserController {
     @PostMapping("/login")
     public Result Login(@RequestBody UserBean userBean){
         try{
-            return userService.Login(userBean) ? Result.ok() : Result.fail("用户名或密码错误！");
+            return userService.Login(userBean) ? Result.ok() : Result.fail("用户名或密码错误!!");
         }catch (Exception e){
-            System.out.println("登录发生错误");
+            return Result.fail("用户名或密码错误!!");
         }
-        return null;
     }
 
 

@@ -1,5 +1,6 @@
 package com.sqx.shopwx.controller;
 
+import com.sqx.shopwx.pojo.CategoryBean;
 import com.sqx.shopwx.pojo.ProductBean;
 import com.sqx.shopwx.result.Result;
 import com.sqx.shopwx.service.ProductService;
@@ -13,17 +14,17 @@ import org.springframework.web.multipart.MultipartFile;
 @CrossOrigin
 @Api(tags = "商品管理")
 @RequestMapping("/product")
-public class ProductController{
+public class ProductController {
 
     @Autowired
     private ProductService productService;
 
     @ApiOperation("查询商品列表")
     @GetMapping("/list/{id}")
-    public Result getProductList(@PathVariable Integer id){
+    public Result getProductList(@PathVariable Integer id) {
         try {
             return Result.ok(productService.getProductList(id));
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("查询商品列表错误" + e);
         }
         return null;
@@ -31,21 +32,21 @@ public class ProductController{
 
     @ApiOperation("添加商品")
     @PostMapping("/add")
-    public Result addProduct(@RequestBody ProductBean productBean){
+    public Result addProduct(@RequestBody ProductBean productBean) {
         try {
             return productService.addProduct(productBean) ? Result.ok() : Result.fail("添加商品失败");
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("添加商品错误" + e);
         }
         return null;
     }
 
     @ApiOperation("删除商品")
-    @DeleteMapping("/del")
-    public Result deleteById(int id){
+    @DeleteMapping("/del/{id}")
+    public Result deleteById(@PathVariable Integer id) {
         try {
             return productService.deleteProductById(id) ? Result.ok() : Result.fail("删除商品失败");
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("删除商品错误" + e);
         }
         return null;
@@ -53,25 +54,37 @@ public class ProductController{
 
     @ApiOperation("添加图片描述")
     @PostMapping("/logo")
-    public Result logo(MultipartFile file){
+    public Result logo(MultipartFile file) {
         try {
             String fileName = productService.logo(file);
             return Result.ok("/shop/file/" + fileName);
-        }catch (Exception e){
-            System.out.println("添加图片描述" + e);
+        } catch (Exception e) {
+            System.out.println("添加图片描述失败" + e);
         }
         return null;
     }
 
     @ApiOperation("获取热卖商品")
     @GetMapping("/getHotProduct")
-    public Result getHotProduct(){
+    public Result getHotProduct() {
         try {
             return Result.ok(productService.getHotProduct());
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("获取热卖商品错误" + e);
         }
         return null;
     }
 
+    @ApiOperation("分页条件查询")
+    @PostMapping("/getListByPage/{current}/{limit}")
+    public Result pageList(@PathVariable long current,
+                           @PathVariable long limit,
+                           @RequestBody(required = false) ProductBean productBean) {
+        try {
+            return Result.ok(productService.getListByPage(current, limit, productBean));
+        } catch (Exception e) {
+            System.out.println("分页查询失败" + e);
+        }
+        return null;
+    }
 }

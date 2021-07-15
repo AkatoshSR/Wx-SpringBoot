@@ -1,6 +1,8 @@
 package com.sqx.shopwx.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.sqx.shopwx.pojo.CategoryBean;
 import com.sqx.shopwx.pojo.ProductBean;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +18,7 @@ public interface ProductService extends IService<ProductBean> {
     boolean addProduct(ProductBean productBean);
 
     // 删除商品
-    boolean deleteProductById(int id);
+    boolean deleteProductById(Integer id);
 
     // 添加图片描述
     String logo(MultipartFile file) throws IOException;
@@ -24,4 +26,5 @@ public interface ProductService extends IService<ProductBean> {
     // 获取热卖商品
     List<ProductBean> getHotProduct();
 
+    Page<ProductBean> getListByPage(long current, long limit, ProductBean productBean);
 }
