@@ -52,7 +52,7 @@ public class ProductController{
     }
 
     @ApiOperation("添加图片描述")
-    @RequestMapping("/logo")
+    @PostMapping("/logo")
     public Result logo(MultipartFile file){
         try {
             String fileName = productService.logo(file);

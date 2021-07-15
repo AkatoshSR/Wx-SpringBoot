@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sqx.shopwx.mapper.ProductMapper;
 import com.sqx.shopwx.pojo.ProductBean;
+import com.sqx.shopwx.result.Result;
 import com.sqx.shopwx.service.ProductService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,14 +38,9 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductBean> 
 
     // 获取图片
     @Override
-    public String logo(MultipartFile file) {
+    public String logo(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
-        try {
-            file.transferTo(new File("E:/a_resources/a_resources/create/shop/file/" + fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        file.transferTo(new File("E:/a_resources/a_resources/create/shop/file/" + fileName));
         return fileName;
     }
 

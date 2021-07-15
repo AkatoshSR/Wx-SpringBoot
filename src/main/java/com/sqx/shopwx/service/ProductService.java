@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.sqx.shopwx.pojo.ProductBean;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ProductService extends IService<ProductBean> {
@@ -18,7 +19,7 @@ public interface ProductService extends IService<ProductBean> {
     boolean deleteProductById(int id);
 
     // 添加图片描述
-    String logo(MultipartFile file);
+    String logo(MultipartFile file) throws IOException;
 
     // 获取热卖商品
     List<ProductBean> getHotProduct();
