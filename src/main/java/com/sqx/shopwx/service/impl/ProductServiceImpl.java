@@ -25,6 +25,13 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductBean> 
         return list(wrapper);
     }
 
+    @Override
+    public ProductBean getProductById(Integer id) {
+        QueryWrapper<ProductBean> wrapper = new QueryWrapper<>();
+        wrapper.eq("id", id);
+        return getOne(wrapper);
+    }
+
     // 添加商品
     @Override
     public boolean addProduct(ProductBean productBean) {
@@ -37,6 +44,12 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductBean> 
         return removeById(id);
     }
 
+    // 修改商品
+    @Override
+    public boolean updateProduct(ProductBean productBean) {
+        return updateById(productBean);
+    }
+
     // 获取图片
     @Override
     public String logo(MultipartFile file) throws IOException {
@@ -44,6 +57,19 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductBean> 
         file.transferTo(new File("E:/a_resources/a_resources/create/shop/file/" + fileName));
         return fileName;
     }
+
+    // 修改图片
+    @Override
+    public boolean updateLogo(ProductBean productBean) throws IOException {
+        return updateById(productBean);
+    }
+
+    // 修改tup
+    @Override
+    public boolean updateLogoPic(ProductBean productBean) throws IOException {
+        return false;
+    }
+
 
     // 获取热卖商品
     @Override

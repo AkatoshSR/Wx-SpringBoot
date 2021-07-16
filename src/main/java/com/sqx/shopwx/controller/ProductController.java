@@ -16,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/product")
 public class ProductController {
 
+    String fileName;
+
     @Autowired
     private ProductService productService;
 
@@ -26,6 +28,17 @@ public class ProductController {
             return Result.ok(productService.getProductList(id));
         } catch (Exception e) {
             System.out.println("查询商品列表错误" + e);
+        }
+        return null;
+    }
+
+    @ApiOperation("根据id查询商品")
+    @GetMapping("/getProductById/{id}")
+    public Result getProductById(@PathVariable Integer id){
+        try {
+            return Result.ok(productService.getProductById(id));
+        }catch (Exception e){
+            System.out.println("查询错误" + e);
         }
         return null;
     }
@@ -52,14 +65,51 @@ public class ProductController {
         return null;
     }
 
+    @ApiOperation("修改商品")
+    @PostMapping("/update")
+    public Result updateProduct(@RequestBody ProductBean productBean){
+        try {
+            return productService.updateProduct(productBean) ? Result.ok(): Result.fail("修改失败");
+        }catch (Exception e){
+            System.out.println("修改商品错误"+e);
+        }
+        return null;
+    }
+
     @ApiOperation("添加图片描述")
     @PostMapping("/logo")
     public Result logo(MultipartFile file) {
         try {
-            String fileName = productService.logo(file);
+
+            fileName = productService.logo(file);
+            System.out.println("/shop/file/" + fileName);
+
             return Result.ok("/shop/file/" + fileName);
         } catch (Exception e) {
             System.out.println("添加图片描述失败" + e);
+        }
+        return null;
+    }
+
+    @ApiOperation("修改图片描述")
+    @PostMapping("/updateLogo")
+    public Result updateLogo(@RequestBody ProductBean productBean){
+        try {
+            productBean.setLogo("/shop/file" + productBean.getLogo());
+            return productService.updateLogo(productBean)? Result.ok():Result.fail("更改图片失败");
+        }catch (Exception e){
+            System.out.println("修改图片错误" + e);
+        }
+        return null;
+    }
+
+    @ApiOperation("修改图片")
+    @PostMapping("/updateLogoPic")
+    public Result updateLogoPic(@RequestBody ProductBean productBean){
+        try {
+
+        }catch (Exception e){
+
         }
         return null;
     }
