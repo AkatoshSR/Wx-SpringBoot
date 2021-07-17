@@ -1,6 +1,6 @@
 package com.sqx.shopwx.controller;
 
-import com.sqx.shopwx.pojo.CategoryBean;
+
 import com.sqx.shopwx.pojo.ProductBean;
 import com.sqx.shopwx.result.Result;
 import com.sqx.shopwx.service.ProductService;
@@ -27,9 +27,8 @@ public class ProductController {
         try {
             return Result.ok(productService.getProductList(id));
         } catch (Exception e) {
-            System.out.println("查询商品列表错误" + e);
+            return Result.fail("查询商品列表发生错误!" + e);
         }
-        return null;
     }
 
     @ApiOperation("根据id查询商品")
@@ -47,6 +46,7 @@ public class ProductController {
     @PostMapping("/add")
     public Result addProduct(@RequestBody ProductBean productBean) {
         try {
+            productBean.setLogo("/Pictures/" + productBean.getLogo());
             return productService.addProduct(productBean) ? Result.ok() : Result.fail("添加商品失败");
         } catch (Exception e) {
             System.out.println("添加商品错误" + e);
@@ -82,9 +82,9 @@ public class ProductController {
         try {
 
             fileName = productService.logo(file);
-            System.out.println("/shop/file/" + fileName);
+            System.out.println("/Pictures/" + fileName);
 
-            return Result.ok("/shop/file/" + fileName);
+            return Result.ok("/Pictures/" + fileName);
         } catch (Exception e) {
             System.out.println("添加图片描述失败" + e);
         }
@@ -95,7 +95,7 @@ public class ProductController {
     @PostMapping("/updateLogo")
     public Result updateLogo(@RequestBody ProductBean productBean){
         try {
-            productBean.setLogo("/shop/file" + productBean.getLogo());
+            productBean.setLogo("/Pictures/" + productBean.getLogo());
             return productService.updateLogo(productBean)? Result.ok():Result.fail("更改图片失败");
         }catch (Exception e){
             System.out.println("修改图片错误" + e);
@@ -103,16 +103,6 @@ public class ProductController {
         return null;
     }
 
-    @ApiOperation("修改图片")
-    @PostMapping("/updateLogoPic")
-    public Result updateLogoPic(@RequestBody ProductBean productBean){
-        try {
-
-        }catch (Exception e){
-
-        }
-        return null;
-    }
 
     @ApiOperation("获取热卖商品")
     @GetMapping("/getHotProduct")

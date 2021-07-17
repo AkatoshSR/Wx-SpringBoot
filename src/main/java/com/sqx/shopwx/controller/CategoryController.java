@@ -22,12 +22,10 @@ public class CategoryController {
     @GetMapping("/getListByCategory/{category}")
     public Result listByCategory(@PathVariable String category){
         try{
-
             return Result.ok(categoryService.getListByCategory(category));
         }catch (Exception e){
-            System.out.println("获取种类列表错误" + e);
+            return Result.fail("获取种类列表发生错误" + e);
         }
-        return null;
     }
 
     @ApiOperation("根据id查询")
@@ -36,9 +34,8 @@ public class CategoryController {
         try {
             return Result.ok(categoryService.getListById(id));
         }catch (Exception e){
-            System.out.println("查询id发生错误" + e);
+            return Result.fail("查询id发生错误" + e);
         }
-        return null;
     }
 
 
@@ -59,9 +56,8 @@ public class CategoryController {
         try {
             return categoryService.addCategory(categoryBean) ? Result.ok() : Result.fail("插入失败");
         }catch (Exception e) {
-            System.out.println("添加出现错误" + e);
+            return Result.fail("添加出现错误" + e);
         }
-        return null;
     }
 
     @ApiOperation("删除操作")
@@ -70,9 +66,8 @@ public class CategoryController {
         try{
             return categoryService.deleteCategoryById(id) ? Result.ok() : Result.fail("删除失败");
         } catch (Exception e){
-            System.out.println("删除时发生错误" + e);
+            return Result.fail("删除商品种类错误" + e);
         }
-        return null;
     }
 
     @ApiOperation("分页条件查询")

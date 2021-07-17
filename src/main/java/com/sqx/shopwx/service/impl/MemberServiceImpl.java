@@ -8,6 +8,8 @@ import com.sqx.shopwx.pojo.MemberBean;
 import com.sqx.shopwx.service.MemberService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberBean> implements MemberService {
 
@@ -32,5 +34,29 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberBean> imp
     @Override
     public boolean edit(MemberBean memberBean) {
         return updateById(memberBean);
+    }
+
+    // 获取用户列表
+    @Override
+    public List<MemberBean> getMemberList(MemberBean memberBean) {
+        QueryWrapper<MemberBean> wrapper = new QueryWrapper<>();
+
+        if (memberBean.getId() != null){
+            wrapper.eq("id", memberBean.getId());
+        }
+        if (memberBean.getName() != null){
+            wrapper.like("id", memberBean.getName());
+        }
+        if (memberBean.getMobile() != null){
+            wrapper.like("mobile", memberBean.getMobile());
+        }
+
+        return list(wrapper);
+    }
+
+    // 注销用户
+    @Override
+    public boolean deleteMemberById(Integer id) {
+        return removeById(id);
     }
 }

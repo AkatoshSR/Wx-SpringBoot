@@ -92,7 +92,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductBean> 
             wrapper.eq("cid",cid);
         }
         if (id != null) {
-            wrapper.eq("id", id);
+            wrapper.like("id", id);
         }
         if (product != null) {
             wrapper.like("product", product);

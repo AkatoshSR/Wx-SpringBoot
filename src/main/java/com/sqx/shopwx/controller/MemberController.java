@@ -19,37 +19,53 @@ public class MemberController {
 
     @ApiOperation("会员登录")
     @PostMapping("/login")
-    public Result login(@RequestBody MemberBean memberBean){
+    public Result login(@RequestBody MemberBean memberBean) {
         try {
             return memberService.login(memberBean) ? Result.ok() : Result.fail("用户名或密码错误");
-        }catch (Exception e){
-            System.out.println("登录发生错误" + e);
+        } catch (Exception e) {
+            return Result.fail("登录发生错误" + e);
         }
-        return null;
     }
 
     @ApiOperation("会员注册")
     @PostMapping("/register")
-    public Result register(@RequestBody MemberBean memberBean){
+    public Result register(@RequestBody MemberBean memberBean) {
         try {
             return memberService.register(memberBean) ? Result.ok() : Result.fail("注册失败");
-        }catch (Exception e){
-            System.out.println("注册时发生错误" + e);
+        } catch (Exception e) {
+            return Result.fail("注册时发生错误" + e);
         }
-        return null;
     }
 
     @ApiOperation("会员填写/修改信息")
     @PostMapping("/edit")
-    public Result edit(@RequestBody MemberBean memberBean){
+    public Result edit(@RequestBody MemberBean memberBean) {
         try {
             return memberService.edit(memberBean) ? Result.ok() : Result.fail("填写信息失败");
-        }catch (Exception e){
-            System.out.println("信息填写错误" + e);
+        } catch (Exception e) {
+            return Result.fail("信息填写错误" + e);
         }
-        return null;
     }
 
+    @ApiOperation("获取会员列表")
+    @PostMapping("/memberList")
+    public Result getMemberList(@RequestBody(required = false) MemberBean memberBean) {
+        try {
+            return Result.ok(memberService.getMemberList(memberBean));
+        } catch (Exception e) {
+            return Result.fail("获取会员列表发生错误" + e);
+        }
+    }
+
+    @ApiOperation("注销用户")
+    @DeleteMapping("/delete/{id}")
+    public Result deleteMemberById(@PathVariable Integer id) {
+        try {
+            return memberService.deleteMemberById(id) ? Result.ok() : Result.fail("注销用户失败");
+        } catch (Exception e) {
+            return Result.fail("注销用户发生错误" + e);
+        }
+    }
 
 
 }

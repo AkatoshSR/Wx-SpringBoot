@@ -22,4 +22,7 @@ public interface OrderService extends IService<OrderBean> {
     // 根据id删除订单
     boolean deleteOrder(Integer id);
 
+    //
+    List<OrderBean> getListBy(OrderBean orderBean);
+
 }

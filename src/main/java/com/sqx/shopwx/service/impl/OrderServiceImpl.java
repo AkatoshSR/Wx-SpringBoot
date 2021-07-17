@@ -45,4 +45,20 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderBean> implem
     public boolean deleteOrder(Integer id) {
         return removeById(id);
     }
+
+    // 订单列表
+    @Override
+    public List<OrderBean> getListBy(OrderBean orderBean) {
+        QueryWrapper<OrderBean> wrapper = new QueryWrapper<>();
+        if (orderBean.getId() != null){
+            wrapper.eq("id", orderBean.getId());
+        }
+        if (orderBean.getName() != null){
+            wrapper.like("name", orderBean.getName());
+        }
+        if (orderBean.getMobile() != null){
+            wrapper.like("mobile", orderBean.getMobile());
+        }
+        return list(wrapper);
+    }
 }
